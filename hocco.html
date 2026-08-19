@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SmartDoc - Document Summarizer</title>
+
+    <!-- CSS FILE -->
+    <link rel="stylesheet" href="cocco.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="logo">
+            <div class="logo-box">S</div>
+
+            <div>
+                <h1>SmartDoc</h1>
+                <p>Document Summarizer</p>
+            </div>
+        </div>
+
+        <div class="header-status">
+            <span class="status-dot"></span>
+            Browser Based
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <p class="eyebrow">
+                SMART DOCUMENT ANALYSIS
+            </p>
+
+            <h2>
+                Understand your documents
+                <span>faster.</span>
+            </h2>
+
+            <p class="hero-description">
+                Upload a text document and get a simple summary,
+                important points, keywords and document statistics.
+            </p>
+
+        </section>
+
+
+        <!-- ================= UPLOAD ================= -->
+
+        <section
+            class="upload-box"
+            id="uploadBox"
+        >
+
+            <div class="upload-icon">
+                ↑
+            </div>
+
+            <h3>
+                Upload your document
+            </h3>
+
+            <p>
+                Drag and drop a TXT file here
+            </p>
+
+            <label
+                for="fileInput"
+                class="choose-button"
+            >
+                Choose TXT File
+            </label>
+
+            <input
+                type="file"
+                id="fileInput"
+                accept=".txt,text/plain"
+            >
+
+            <small>
+                TXT files only · Maximum 5 MB
+            </small>
+
+        </section>
+
+
+        <!-- ================= SELECTED FILE ================= -->
+
+        <section
+            class="file-section hidden"
+            id="fileSection"
+        >
+
+            <div class="file-card">
+
+                <div class="file-information">
+
+                    <div class="file-type">
+                        TXT
+                    </div>
+
+                    <div>
+
+                        <h3 id="fileName">
+                            Document.txt
+                        </h3>
+
+                        <p id="fileSize">
+                            0 KB
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="removeButton"
+                    class="remove-button"
+                >
+                    Remove
+                </button>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="analyzeButton"
+                class="analyze-button"
+            >
+                ✦ Analyze Document
+            </button>
+
+        </section>
+
+
+        <!-- ================= LOADING ================= -->
+
+        <section
+            id="loadingSection"
+            class="loading hidden"
+        >
+
+            <div class="spinner"></div>
+
+            <h3>
+                Analyzing document...
+            </h3>
+
+            <p id="loadingMessage">
+                Reading your document
+            </p>
+
+        </section>
+
+
+        <!-- ================= RESULTS ================= -->
+
+        <section
+            id="resultsSection"
+            class="results hidden"
+        >
+
+            <div class="results-heading">
+
+                <div>
+
+                    <p class="eyebrow">
+                        ANALYSIS COMPLETE
+                    </p>
+
+                    <h2>
+                        Document Insights
+                    </h2>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="downloadButton"
+                    class="download-button"
+                >
+                    ↓ Download Report
+                </button>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="stats">
+
+                <div class="stat-card">
+
+                    <p>Words</p>
+
+                    <strong id="wordCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <p>Sentences</p>
+
+                    <strong id="sentenceCount">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <p>Reading Time</p>
+
+                    <strong id="readingTime">
+                        0 min
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <p>Keywords</p>
+
+                    <strong id="keywordCount">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUMMARY -->
+
+            <div class="card">
+
+                <div class="card-heading">
+
+                    <div class="card-icon">
+                        ✦
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Summary
+                        </h3>
+
+                        <p>
+                            A concise overview of your document
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <p
+                    id="summaryText"
+                    class="summary"
+                ></p>
+
+            </div>
+
+
+            <!-- KEY POINTS -->
+
+            <div class="card">
+
+                <div class="card-heading">
+
+                    <div class="card-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Key Points
+                        </h3>
+
+                        <p>
+                            Important information found in the document
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div id="keyPoints"></div>
+
+            </div>
+
+
+            <!-- KEYWORDS -->
+
+            <div class="card">
+
+                <div class="card-heading">
+
+                    <div class="card-icon">
+                        #
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Keywords
+                        </h3>
+
+                        <p>
+                            Important terms in the document
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="keywords"
+                    class="keyword-container"
+                ></div>
+
+            </div>
+
+
+            <!-- DOCUMENT INFORMATION -->
+
+            <div class="card">
+
+                <div class="card-heading">
+
+                    <div class="card-icon">
+                        ◉
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Document Information
+                        </h3>
+
+                        <p>
+                            Additional document statistics
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="information-grid">
+
+                    <div class="information-item">
+
+                        <span>
+                            Document Type
+                        </span>
+
+                        <strong id="documentType">
+                            Text Document
+                        </strong>
+
+                    </div>
+
+
+                    <div class="information-item">
+
+                        <span>
+                            Average Words / Sentence
+                        </span>
+
+                        <strong id="averageWords">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="information-item">
+
+                        <span>
+                            Characters
+                        </span>
+
+                        <strong id="characterCount">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="information-item">
+
+                        <span>
+                            Paragraphs
+                        </span>
+
+                        <strong id="paragraphCount">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ORIGINAL TEXT -->
+
+            <div class="card">
+
+                <div class="card-heading">
+
+                    <div class="card-icon">
+                        ≡
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Original Text
+                        </h3>
+
+                        <p>
+                            Text extracted from your document
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <details>
+
+                    <summary>
+                        View original text
+                    </summary>
+
+                    <div
+                        id="originalText"
+                        class="original-text"
+                    ></div>
+
+                </details>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        SmartDoc
+    </p>
+
+    <span>
+        HTML5 · CSS3 · JavaScript
+    </span>
+
+    <button
+        type="button"
+        id="aboutButton"
+        class="about-button"
+    >
+        ABOUT
+    </button>
+
+</footer>
+
+
+<!-- ================= ABOUT MODAL ================= -->
+
+<div
+    id="aboutModal"
+    class="about-modal hidden"
+>
+
+    <div class="about-overlay"></div>
+
+    <div class="about-card">
+
+        <!-- Close -->
+
+        <button
+            type="button"
+            id="closeAbout"
+            class="close-about"
+        >
+            ×
+        </button>
+
+
+        <!-- About Header -->
+
+        <div class="about-header">
+
+            <div class="about-avatar">
+                S
+            </div>
+
+            <div>
+
+                <p class="about-label">
+                    ABOUT
+                </p>
+
+                <h2>
+                    SmartDoc
+                </h2>
+
+                <p>
+                    Document Summarizer
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- About Me -->
+
+        <div class="about-content">
+
+            <h3>
+                About the Developer
+            </h3>
+
+            <p>
+                Hi, I'm <strong>ESHWARSAI DUMPALA</strong>.
+                I created SmartDoc as a simple browser-based
+                document analysis project that helps users
+                understand their documents faster.
+            </p>
+
+            <p>
+                This project is built using
+                HTML5, CSS3 and JavaScript,
+                without a database or backend.
+            </p>
+
+        </div>
+
+
+        <!-- Contact -->
+
+        <div class="contact-section">
+
+            <h3>
+                Connect With Me
+            </h3>
+
+
+            <div class="contact-links">
+
+
+                <!-- LinkedIn -->
+
+                <a
+                    href="https://www.linkedin.com/in/dumpala-eshwarsai2005/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="contact-link"
+                >
+
+                    <span class="contact-icon">
+                        in
+                    </span>
+
+                    <span>
+                        LinkedIn
+                    </span>
+
+                    <span class="link-arrow">
+                        ↗
+                    </span>
+
+                </a>
+
+
+                <!-- GitHub -->
+
+                <a
+                    href="https://github.com/Eshwarsai1905"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="contact-link"
+                >
+
+                    <span class="contact-icon">
+                        ◉
+                    </span>
+
+                    <span>
+                        GitHub
+                    </span>
+
+                    <span class="link-arrow">
+                        ↗
+                    </span>
+
+                </a>
+
+
+                <!-- Gmail -->
+
+                <a
+                    href="mailto:eshwarreddydumpala@gmail.com"
+                    class="contact-link"
+                >
+
+                    <span class="contact-icon">
+                        @
+                    </span>
+
+                    <span>
+                        Gmail
+                    </span>
+
+                    <span class="link-arrow">
+                        
+                    </span>
+
+                </a>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- Contact Message -->
+
+        <div class="contact-message">
+
+            <span>
+                ✦
+            </span>
+
+            <p>
+                Feel free to connect with me
+                for questions, ideas or collaboration.
+            </p>
+
+        </div>
+
+
+        <!-- Modal Footer -->
+
+        <div class="about-footer">
+
+            <span>
+                SmartDoc
+            </span>
+
+            <span>
+                HTML5 · CSS3 · JavaScript
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+    <!-- JAVASCRIPT FILE -->
+    <script src="jocco.js"></script>
+
+</body>
+
+</html>
